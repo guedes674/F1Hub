@@ -16,7 +16,7 @@ export default function Standings() {
   const { drivers, constructors, loading: contextLoading, error: contextError, refreshDrivers, refreshConstructors } = useF1Data();
   
   // Filter active drivers
-  const activeDrivers = drivers.filter(driver => driver.isActive === 1);
+  const activeDrivers = drivers.filter(driver => driver.isActive !== 0);
 
   // Using the URL parameter to initialize the tab state ensures consistency
   const tabParam = searchParams.get('tab');

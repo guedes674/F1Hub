@@ -20,8 +20,25 @@ A central hub for Formula 1 enthusiasts, offering driver statistics, news, ratin
 - **Frontend**: Next.js and Tailwind CSS for a responsive and modern UI
 - **Backend**: Python for sophisticated data analysis and processing
 
+## 📺 Preview
+
+<div align="center">
+  <h3>Dashboard</h3>
+  <img src="media/f1hubhomepage.webp" alt="F1Hub Dashboard" width="800"/>
+  
+  <h3>Driver Statistics</h3>
+  <img src="media/f1hubstats.png" alt="Driver Statistics" width="800"/>
+  
+  <h3>News Feed</h3>
+  <img src="media/f1hubnews.webp" alt="F1Hub News" width="800"/>
+  
+  <h3>Driver Comparison</h3>
+  <img src="media/f1hubcomp.webp" alt="Driver Comparison Tool" width="800"/>
+</div>
+
 ## 🚀 Installation
 
+### Frontend 
 ```bash
 # Clone the repository
 git clone https://github.com/Tiago5Carneiro/hackaton25
@@ -35,3 +52,28 @@ npm install
 # Start the application
 npm start
 ```
+
+### Backend 
+
+```bash
+cd Backend/proxy
+
+python3 proxy.py
+```
+
+### Database Injection
+
+```bash
+# Go to Backend 
+cd Backend
+
+# Open mysql
+mysql
+
+# Build squema
+source squema.sql
+
+# Run Database injection
+python3 FastF1_Api.py
+```
+

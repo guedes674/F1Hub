@@ -24,8 +24,12 @@ def get_future_events():
     for _, event in event_schedule.iterrows():
         cursor = conn.cursor()
 
+        # Add ON DUPLICATE KEY UPDATE clause
         insert = '''INSERT INTO FutureEvent (EventName, Date, Country, Location) 
-                    VALUES (%s,%s,%s,%s)'''
+                    VALUES (%s,%s,%s,%s)
+                    ON DUPLICATE KEY UPDATE
+                    EventName = VALUES(EventName),
+                    Country = VALUES(Country)'''
 
         cursor.execute(insert, (
             event["EventName"],
@@ -36,9 +40,6 @@ def get_future_events():
 
         conn.commit()
         cursor.close()
-
-
-
 
 
 def get_year_events(year):
@@ -191,10 +192,16 @@ def get_stats_race(session):
 def add_event_bd(event_info):
     cursor = conn.cursor()
 
-    # Insert the event
+    # Insert the event with ON DUPLICATE KEY UPDATE
     event_insert = '''
         INSERT INTO Event (EventName, StartDate, EndDate, Country, Location, Winner, FastLap)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ON DUPLICATE KEY UPDATE
+        EventName = VALUES(EventName),
+        EndDate = VALUES(EndDate),
+        Country = VALUES(Country),
+        Winner = VALUES(Winner),
+        FastLap = VALUES(FastLap)
     '''
     
     winner = event_info["Winner"]["DriverId"]
@@ -210,17 +217,20 @@ def add_event_bd(event_info):
         fasttime
     ))
 
-    # Insert into PlayerEvent table
+    # Insert into PlayerEvent table with ON DUPLICATE KEY UPDATE
     player_event_insert = '''
-        INSERT INTO PlayerEvent (PlayerId, StartDate,Location) VALUES (%s, %s, %s)
+        INSERT INTO PlayerEvent (PlayerId, StartDate, Location) 
+        VALUES (%s, %s, %s)
+        ON DUPLICATE KEY UPDATE
+        PlayerId = VALUES(PlayerId)
     '''
     
-    cursor.execute(player_event_insert, (winner, event_info["StartDate"],event_info["Location"]))
+    cursor.execute(player_event_insert, (winner, event_info["StartDate"], event_info["Location"]))
 
     # Commit changes
     conn.commit()
 
-    # Close cursor and connection
+    # Close cursor
     cursor.close()
 
 

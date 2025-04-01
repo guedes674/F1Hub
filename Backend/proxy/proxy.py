@@ -319,13 +319,13 @@ def get_drivers_standings():
                 Qualifying as quali,
                 Overall as overall
             FROM Player
-            WHERE IsActive = 1
+            WHERE IsActive != 0
             ORDER BY Points DESC
         """
         
         cursor.execute(query)
         drivers = cursor.fetchall()
-
+        print(drivers)
         print(f"Fetched {len(drivers)} drivers from the database.")
         
         # Add position based on the sorted order and slugify name for URLs
@@ -339,25 +339,25 @@ def get_drivers_standings():
             driver['teamColor'] = get_team_color(driver['team'])
 
             if driver['pace'] is None:
-                driver['pace'] = random.randint(70, 100)
+                driver['pace'] = random.randint(65, 80)
                 
             if driver['agress'] is None:
-                driver['agress'] = random.randint(70, 100)
+                driver['agress'] = random.randint(65, 80)
 
             if driver['def'] is None:
-                driver['def'] = random.randint(70, 100)
+                driver['def'] = random.randint(65, 80)
 
             if driver['tireman'] is None:
-                driver['tireman'] = random.randint(70, 100)
+                driver['tireman'] = random.randint(65, 80)
 
             if driver['consist'] is None:
-                driver['consist'] = random.randint(70, 100)
+                driver['consist'] = random.randint(65, 80)
 
             if driver['quali'] is None:
-                driver['quali'] = random.randint(70, 100)
+                driver['quali'] = random.randint(65, 80)
                     
             if driver['overall'] is None:
-                driver['overall'] = random.randint(70, 100)
+                driver['overall'] = random.randint(65, 80)
                 
 
             
@@ -444,7 +444,7 @@ def get_driver_by_id(driver_id):
         
         cursor.execute(query, (driver_id,))
         driver = cursor.fetchone()
-        
+        print(driver)
         if driver:
             driver['slug'] = driver['name'].lower().replace(' ', '-')
             driver['nationality'] = driver_nationality(driver['name'])
@@ -497,7 +497,7 @@ def get_driver_by_slug(driver_slug):
         
         cursor.execute(query)
         drivers = cursor.fetchall()
-        
+        print(drivers)
         # Find driver with matching slug
         for driver in drivers:
             # Generate slug from name
@@ -508,25 +508,25 @@ def get_driver_by_slug(driver_slug):
                 driver['flag'] = get_driver_flag(driver['name'])
                 driver['teamColor'] = get_team_color(driver['team'])
                 if driver['pace'] is None:
-                    driver['pace'] = random.randint(70, 100)
+                    driver['pace'] = random.randint(65, 80)
                 
                 if driver['agress'] is None:
-                    driver['agress'] = random.randint(70, 100)
+                    driver['agress'] = random.randint(65, 80)
 
                 if driver['def'] is None:
-                    driver['def'] = random.randint(70, 100)
+                    driver['def'] = random.randint(65, 80)
 
                 if driver['tireman'] is None:
-                    driver['tireman'] = random.randint(70, 100)
+                    driver['tireman'] = random.randint(65, 80)
 
                 if driver['consist'] is None:
-                    driver['consist'] = random.randint(70, 100)
+                    driver['consist'] = random.randint(65, 80)
 
                 if driver['quali'] is None:
-                    driver['quali'] = random.randint(70, 100)
+                    driver['quali'] = random.randint(65, 80)
 
                 if driver['overall'] is None:
-                    driver['overall'] = random.randint(70, 100)
+                    driver['overall'] = random.randint(65, 80)
                 
                 return jsonify(driver)
         
@@ -1195,5 +1195,5 @@ def chat_response():
 
 if __name__ == '__main__':
     # Get port from environment or use default
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=port, debug=True)
