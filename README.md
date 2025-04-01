@@ -26,11 +26,11 @@ A central hub for Formula 1 enthusiasts, offering driver statistics, news, ratin
   <h3>Dashboard</h3>
   <img src="media/f1hubhomepage.webp" alt="F1Hub Dashboard" width="800"/>
   
+  <h3>News Feed</h3>
+  <img src="media/f1hubnews.png" alt="F1Hub News" width="800"/>
+
   <h3>Driver Statistics</h3>
   <img src="media/f1hubstats.png" alt="Driver Statistics" width="800"/>
-  
-  <h3>News Feed</h3>
-  <img src="media/f1hubnews.webp" alt="F1Hub News" width="800"/>
   
   <h3>Driver Comparison</h3>
   <img src="media/f1hubcomp.webp" alt="Driver Comparison Tool" width="800"/>
@@ -56,15 +56,17 @@ npm start
 ### Backend 
 
 ```bash
+# Navigate to directory
 cd Backend/proxy
 
+# Start the backend
 python3 proxy.py
 ```
 
 ### Database Injection
 
 ```bash
-# Go to Backend 
+# Navitage to directory 
 cd Backend
 
 # Open mysql
