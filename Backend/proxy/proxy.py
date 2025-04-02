@@ -264,6 +264,55 @@ def get_event_image(location):
     # Return a default image or None if the location isn't mapped
     return base_url + "Formula1.jpg"  # A default F1 image as fallback
 
+def get_driver_image(driver_name):
+    driver_images = {
+    # Red Bull Racing
+    "Max Verstappen": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/verstappen.jpg.img.1920.medium.jpg",
+    "Isack Hadjar": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/hadjar.jpg.img.1920.medium.jpg",
+    
+    # Ferrari
+    "Charles Leclerc": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/leclerc.jpg.img.1920.medium.jpg",
+    "Lewis Hamilton": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/hamilton.jpg.img.1920.medium.jpg",
+    
+    # Mercedes
+    "George Russell": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/russell.jpg.img.1920.medium.jpg",
+    "Andrea Kimi Antonelli": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/antonelli.jpg.img.1920.medium.jpg",
+    
+    # McLaren
+    "Lando Norris": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/norris.jpg.img.1920.medium.jpg",
+    "Oscar Piastri": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/piastri.jpg.img.1920.medium.jpg",
+    
+    # Aston Martin
+    "Fernando Alonso": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/alonso.jpg.img.1920.medium.jpg",
+    "Lance Stroll": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/stroll.jpg.img.1920.medium.jpg",
+    
+    # Alpine
+    "Pierre Gasly": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/gasly.jpg.img.1920.medium.jpg",
+    "Jack Doohan": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/doohan.jpg.img.1920.medium.jpg",
+    
+    # RB (Racing Bulls)
+    "Yuki Tsunoda": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/tsunoda.jpg.img.1920.medium.jpg",
+    "Liam Lawson": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/lawson.jpg.img.1920.medium.jpg",
+    
+    # Williams
+    "Alexander Albon": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/albon.jpg.img.1920.medium.jpg",
+    "Carlos Sainz": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/sainz.jpg.img.1920.medium.jpg",
+    
+    # Haas
+    "Esteban Ocon": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/ocon.jpg.img.1920.medium.jpg",
+    "Oliver Bearman": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/bearman.jpg.img.1920.medium.jpg",
+    
+    # Sauber (Audi)
+    "Nico Hulkenberg": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/hulkenberg.jpg.img.1920.medium.jpg",
+    "Gabriel Bortoleto": "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/bortoleto.jpg.img.1920.medium.jpg"
+    }
+    # Return the image URL if driver name is in the map
+    if driver_name in driver_images:
+        return driver_images[driver_name]
+    
+    # Return a default image or None if the driver isn't mapped
+    return "https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/default.jpg.img.1920.medium.jpg"  # A default F1 image as fallback
+
 
 # You can also add a convenience function that combines nationality lookup with flag URL
 def get_driver_flag(driver_name):
@@ -287,6 +336,7 @@ def get_db_connection():
     except mysql.connector.Error as err:
         print(f"Error connecting to database: {err}")
         return None
+    
 
 @app.route('/api/standings/drivers', methods=['GET'])
 def get_drivers_standings():
@@ -332,6 +382,7 @@ def get_drivers_standings():
         for i, driver in enumerate(drivers):
             driver['position'] = i + 1
             driver['slug'] = driver['name'].lower().replace(' ', '-')
+            driver['image'] = get_driver_image(driver['name'])
             
             # Set default values for required frontend fields
             driver['nationality'] = driver_nationality(driver['name'])
@@ -507,6 +558,7 @@ def get_driver_by_slug(driver_slug):
                 driver['nationality'] = driver_nationality(driver['name'])
                 driver['flag'] = get_driver_flag(driver['name'])
                 driver['teamColor'] = get_team_color(driver['team'])
+                driver['image'] = get_driver_image(driver['name'])
                 if driver['pace'] is None:
                     driver['pace'] = random.randint(65, 80)
                 
